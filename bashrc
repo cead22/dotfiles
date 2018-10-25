@@ -4,17 +4,17 @@
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
+# no duplicate entries
+HISTCONTROL=ignoredups:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 # big big history
-HISTSIZE=100000
-HISTFILESIZE=100000
+HISTSIZE=10000000
+HISTFILESIZE=10000000
 
-# no duplicate entries
-HISTCONTROL=ignoredups:erasedups
 
 # append to history, don't overwrite it
 shopt -s histappend
