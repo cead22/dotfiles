@@ -14,6 +14,7 @@ Plugin 'https://github.com/kien/ctrlp.vim'
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'
+Bundle 'joonty/vim-phpqa.git'
 Bundle 'joonty/vdebug'
 Plugin 'elmcast/elm-vim'
 " Plugin 'Valloric/YouCompleteMe'
@@ -206,9 +207,9 @@ nmap <leader>m :CtrlP <cr>
 nmap <leader>b :CtrlPBuffer <cr>
 let g:ctrlp_custom_ignore = {
     \ 'file': '\v(\.x)$',
-    \ 'dir': '\v(node_modules|vendor|externalLib|build)$',
+     \ 'dir': '\v(node_modules|vendor|externalLib|build|_testify)$',
     \ }
-    "\ 'dir': '\v(node_modules|externalLib|build)$',
+    " \ 'dir': '\v(node_modules|externalLib|build)$',
 "let g:ctrlp_working_path_mode = 'c'
 
 
