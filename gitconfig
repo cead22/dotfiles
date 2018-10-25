@@ -2,8 +2,11 @@
     editor = vim
 [user]
     name = Carlos Alvarez
-    # email = cead22@gmail.com
-    email = carlos@expensify.com
+    email = cead22@gmail.com
+    # email = carlos@expensify.com
+    signingKey = 3232EFC0EC48EEE1
+[commit]
+	gpgsign = true
 [github]
 	user = cead22
 [color]
@@ -47,6 +50,7 @@
     np = !git --no-pager
     da = !git branch --merged | grep -v "\\*" | xargs -n 1 git branch -d
     au = add -u
+    mb = !git branch | grep carlos
 
     # typos
     dif = diff
