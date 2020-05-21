@@ -207,14 +207,18 @@ nmap <leader>m :CtrlP <cr>
 nmap <leader>b :CtrlPBuffer <cr>
 let g:ctrlp_custom_ignore = {
     \ 'file': '\v(\.x)$',
-     \ 'dir': '\v(node_modules|vendor|externalLib|build|_testify)$',
+    \ 'dir': '\v(node_modules|vendor|externalLib|venv|build)$'
     \ }
-    " \ 'dir': '\v(node_modules|externalLib|build)$',
+    "\ 'dir': '\v(node_modules|vendor|externalLib|build|_testify)$',
+    " \ 'dir': '\v(node_modules|externalLib|build)$'
 "let g:ctrlp_working_path_mode = 'c'
 
 
 " Copy current buffer content and return to position
-nmap <leader>c mxgg"*yG'x
+" nmap <leader>c mxgg"*yG'x
+
+" Copy contents of file
+nmap <leader>c :!pbcopy < %<cr><cr>
 
 " Delete current buffer
 nmap <leader>d :bd<cr>

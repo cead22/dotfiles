@@ -24,6 +24,9 @@ shopt -s histappend
 shopt -s checkwinsize
 
 export EDITOR='vim'
+export BASH_SILENCE_DEPRECATION_WARNING=1
+export SALTFAB_DIR=~/Expensidev/Ops-Configs/saltfab
+export BASTION_USER=carlos
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 #case "$TERM" in

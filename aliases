@@ -1,12 +1,36 @@
 alias s="git status --short"
 alias m="git co master"
 alias v="vim -c 'normal ,d' ."
-alias t='python ~/t.py --task-dir ~/tasks --list tasks'
 alias jack='ack --js'
 alias pack='ack --php'
 alias hack='ack --html'
 alias l='ls -lrth'
-alias dt='cd ~/Desktop && open .'
+alias web='cd ~/Expensidev/Web-Expensify'
+alias auth='cd ~/expensidev/Server-Expensify/'
+alias bp='cd ~/expensidev/Bedrock-PHP/'
+alias bql='cd ~/expensidev/Web-Expensify && ../script/bedrocksql.sh'
+alias br='cd ~/expensidev/Bedrock/'
+alias db='echo -ne "\033[0;36mconnecting to db2.rno\033[0;0m\n" && ssh db2.rno'
+alias dev='cd ~/expensidev/'
+alias fab='fab -g bastion1.sjc -u carlos'
+alias pab='fab -P -z 10 -u carlos'
+alias is='cd ~/expensidev/Integration-Server'
+alias libs='cd ~/expensidev/PHP-Libs/'
+alias logs='ssh -A bastion1.sjc -t ssh log1.uw1 -tt /expensify/bin/logwatcher'
+alias lw='ssh log1.uw1'
+alias mobile='cd ~/expensidev/Mobile-Expensify/'
+alias ops='cd ~/expensify/Ops-Configs/'
+alias pdf='cd ~/expensidev/Web-PDFs/var/pdfs.expensify.com'
+alias salt='cd ~/expensidev/Salt'
+alias secure='cd ~/expensidev/Web-Secure/'
+alias sql='~/expensidev/script/sql.sh'
+alias ss='cd ~/expensidev/Ops-Configs/saltfab; source venv/bin/activate'
+alias static='cd ~/expensidev/Web-Static'
+alias tf='~/expensidev/script/tail.sh'
+alias uid='uuidgen | tr '\''[:upper:]'\'' '\''[:lower:]'\'' | pbcopy && echo '\''UUID copied to clipboard'\'''
+alias master='echo -ne "\033[0;36mconnecting to db1.sjc\033[0;0m\n" && ssh db1.sjc'
+alias bj='ssh -A bastion1.sjc'
+alias sc='cat ~/.ssh/config'
 
 function push(){
     branch=`git rev-parse --abbrev-ref HEAD`
@@ -29,6 +53,28 @@ function pushf(){
 function pr(){
     remote=`git remote -v | grep origin | head -1 | awk '{print $2'} | sed 's/.*:\(.*\)*/\1/' | sed 's/\.git$//'`
     branch=`git rev-parse --abbrev-ref HEAD`
-    open "https://github.com/$remote/compare/${1:-master}...$branch?expand=1&body=please%20review%0A-%20Fixes%0A%0A%23%23%23%23%23%20Dev%20tests%0A%23%23%23%23%23%20QA%20tests%0A&assignee=cead22"
+    open "https://github.com/$remote/compare/${1:-master}...$branch?expand=1&assignee=cead22"
 }
 
+function vm (){
+    if [[ `screen -list | grep vm` ]]; then
+        echo "Attaching existing screen session"
+        screen -r vm
+    else
+        echo "Initiating new screen session"
+        screen -S vm bash -c "cd ~/Expensidev/; vagrant ssh;"
+    fi
+}
+function as (){
+ss
+fab -g bastion1.sjc -H ${1:-db2.rno} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.State)\")'" | grep 4445 && cd -
+}
+
+function bs (){
+ss
+fab -H ${1:-webrock1.sjc} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.State)\")'" | grep 8889 && cd -
+}
+
+function count_csv (){
+    tr ',' '\n' | grep -v '^$' | sort -rf | uniq -ci | sort -k 1,1nr
+}
