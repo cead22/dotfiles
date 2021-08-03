@@ -1,12 +1,13 @@
 alias s="git status --short"
 alias m="git co master"
+alias m='echo -ne "\033[0;36mAre you sure you dont want to swtich to MAIN?\033[0;0m\n" && git co master'
 alias v="vim -c 'normal ,d' ."
 alias jack='ack --js'
 alias pack='ack --php'
 alias hack='ack --html'
 alias l='ls -lrth'
 alias web='cd ~/Expensidev/Web-Expensify'
-alias auth='cd ~/expensidev/Server-Expensify/'
+alias auth='cd ~/expensidev/Auth/'
 alias bp='cd ~/expensidev/Bedrock-PHP/'
 alias bql='cd ~/expensidev/Web-Expensify && ../script/bedrocksql.sh'
 alias br='cd ~/expensidev/Bedrock/'
@@ -16,7 +17,7 @@ alias fab='fab -g bastion1.sjc -u carlos'
 alias pab='fab -P -z 10 -u carlos'
 alias is='cd ~/expensidev/Integration-Server'
 alias libs='cd ~/expensidev/PHP-Libs/'
-alias logs='ssh -A bastion1.sjc -t ssh log1.uw1 -tt /expensify/bin/logwatcher'
+alias logs='ssh log1.uw1 -tt /expensify/bin/logwatcher | grep --color=always -v productiv.com'
 alias lw='ssh log1.uw1'
 alias mobile='cd ~/expensidev/Mobile-Expensify/'
 alias ops='cd ~/expensify/Ops-Configs/'
@@ -31,6 +32,7 @@ alias uid='uuidgen | tr '\''[:upper:]'\'' '\''[:lower:]'\'' | pbcopy && echo '\'
 alias master='echo -ne "\033[0;36mconnecting to db1.sjc\033[0;0m\n" && ssh db1.sjc'
 alias bj='ssh -A bastion1.sjc'
 alias sc='cat ~/.ssh/config'
+alias cash='cd ~/expensidev/App'
 
 function push(){
     branch=`git rev-parse --abbrev-ref HEAD`
@@ -67,12 +69,12 @@ function vm (){
 }
 function as (){
 ss
-fab -g bastion1.sjc -H ${1:-db2.rno} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.State)\")'" | grep 4445 && cd -
+fab -g bastion1.sjc -H ${1:-db2.rno} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 4445 | sed "s/0.0.0.0/auth.${1:-db2.rno}/" | cut -d' ' -f 3-4 && cd -
 }
 
 function bs (){
 ss
-fab -H ${1:-webrock1.sjc} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.State)\")'" | grep 8889 && cd -
+fab -H ${1:-webrock1.sjc} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 8889 && cd -
 }
 
 function count_csv (){
