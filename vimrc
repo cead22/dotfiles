@@ -14,10 +14,6 @@ Plugin 'https://github.com/kien/ctrlp.vim'
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'
-Bundle 'joonty/vim-phpqa.git'
-Bundle 'joonty/vdebug'
-Plugin 'elmcast/elm-vim'
-" Plugin 'Valloric/YouCompleteMe'
 
 augroup PHP
     autocmd!
@@ -140,10 +136,10 @@ set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 " MISC KEY MAPS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Move around splits with <c-hjkl>
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+" nnoremap <c-j> <c-w>j
+" nnoremap <c-k> <c-w>k
+" nnoremap <c-h> <c-w>h
+" nnoremap <c-l> <c-w>l
 
 " Can't be bothered to understand ESC vs <c-c> in insert mode
 imap <c-c> <esc>
@@ -177,10 +173,10 @@ inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
 
 " move between splits/buffers
-map <Left> <C-H>
-map <Right> <C-L>
-map <Up> :bnext <cr>
-map <Down> :bprevious <cr>
+nnoremap <Left> <c-w>h
+nnoremap <Right> <c-w>l
+nnoremap <Up> :bnext <cr>
+nnoremap <Down> :bprevious <cr>
 
 " Rename current file
 function! RenameFile()
@@ -207,7 +203,7 @@ nmap <leader>m :CtrlP <cr>
 nmap <leader>b :CtrlPBuffer <cr>
 let g:ctrlp_custom_ignore = {
     \ 'file': '\v(\.x)$',
-    \ 'dir': '\v(node_modules|vendor|externalLib|venv|build)$'
+     \ 'dir': '\v(node_modules|vendor|externalLib|venv)$'
     \ }
     "\ 'dir': '\v(node_modules|vendor|externalLib|build|_testify)$',
     " \ 'dir': '\v(node_modules|externalLib|build)$'
@@ -217,8 +213,11 @@ let g:ctrlp_custom_ignore = {
 " Copy current buffer content and return to position
 " nmap <leader>c mxgg"*yG'x
 
-" Copy contents of file
+" copy filename
 nmap <leader>c :!pbcopy < %<cr><cr>
+
+" Copy contents of file
+"todo nmap <leader>c :!pbcopy < %<cr><cr>
 
 " Delete current buffer
 nmap <leader>d :bd<cr>
