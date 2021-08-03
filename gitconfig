@@ -56,3 +56,5 @@
     dif = diff
     difff = diff
     shoe = git show
+[pull]
+    rebase = false
