@@ -1,9 +1,9 @@
 [core]
     editor = vim
 [user]
-    name = Carlos Alvarez
+	name = Carlos Alvarez
     # email = cead22@gmail.com
-    email = carlos@expensify.com
+	email = carlos@expensify.com
 	signingkey = 274F78F8018CF180
 [commit]
 	gpgsign = true
