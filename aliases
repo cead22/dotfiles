@@ -1,43 +1,55 @@
 alias s="git status --short"
-alias m="git co master"
 alias m='echo -ne "\033[0;36mAre you sure you dont want to swtich to MAIN?\033[0;0m\n" && git co master'
 alias v="vim -c 'normal ,d' ."
 alias jack='ack --js'
 alias pack='ack --php'
 alias hack='ack --html'
 alias l='ls -lrth'
-alias web='cd ~/Expensidev/Web-Expensify'
-alias auth='cd ~/expensidev/Auth/'
-alias bp='cd ~/expensidev/Bedrock-PHP/'
-alias bql='cd ~/expensidev/Web-Expensify && ../script/bedrocksql.sh'
-alias br='cd ~/expensidev/Bedrock/'
-alias db='echo -ne "\033[0;36mconnecting to db2.rno\033[0;0m\n" && ssh db2.rno'
-alias dev='cd ~/expensidev/'
-alias fab='fab -g bastion1.sjc -u carlos'
-alias pab='fab -P -z 10 -u carlos'
-alias is='cd ~/expensidev/Integration-Server'
-alias libs='cd ~/expensidev/PHP-Libs/'
-alias logs='ssh log1.uw1 -tt /expensify/bin/logwatcher | grep --color=always -v productiv.com'
-alias lw='ssh log1.uw1'
-alias mobile='cd ~/expensidev/Mobile-Expensify/'
-alias ops='cd ~/expensify/Ops-Configs/'
-alias pdf='cd ~/expensidev/Web-PDFs/var/pdfs.expensify.com'
-alias salt='cd ~/expensidev/Salt'
-alias secure='cd ~/expensidev/Web-Secure/'
-alias sql='~/expensidev/script/sql.sh'
-alias ss='cd ~/expensidev/Ops-Configs/saltfab; source venv/bin/activate'
-alias static='cd ~/expensidev/Web-Static'
-alias tf='~/expensidev/script/tail.sh'
+
+if [[ $OSTYPE == 'darwin'* ]]
+then
+    basedir='~/Expensidev'
+else
+    basedir='/vagrant'
+fi
+
+alias web="cd ${basedir}/Web-Expensify/"
+alias auth="cd ${basedir}/Auth/"
+alias bp="cd ${basedir}/Bedrock-PHP/"
+alias bql="cd ${basedir}/Web-Expensify && ../script/bedrocksql.sh"
+alias br="cd ${basedir}/Bedrock/"
+alias dev="cd ${basedir}/"
+alias is="cd ${basedir}/Integration-Server"
+alias libs="cd ${basedir}/PHP-Libs/"
+alias mobile="cd ${basedir}/Mobile-Expensify/"
+alias pdf="cd ${basedir}/Web-PDFs/var/pdfs.expensify.com"
+alias salt="cd ${basedir}/Salt"
+alias secure="cd ${basedir}/Web-Secure/"
+alias sql="${basedir}/script/sql.sh"
+alias ss="cd ${basedir}/Ops-Configs/saltfab; source venv/bin/activate"
+alias static="cd ${basedir}/Web-Static"
+alias tf="${basedir}/script/tail.sh"
+alias cash="cd ${basedir}/App"
+
 alias uid='uuidgen | tr '\''[:upper:]'\'' '\''[:lower:]'\'' | pbcopy && echo '\''UUID copied to clipboard'\'''
+alias logs="ssh log1.uw1 -tt /expensify/bin/logwatcher | grep --color=always -v productiv.com"
 alias master='echo -ne "\033[0;36mconnecting to db1.sjc\033[0;0m\n" && ssh db1.sjc'
 alias bj='ssh -A bastion1.sjc'
 alias sc='cat ~/.ssh/config'
-alias cash='cd ~/expensidev/App'
+alias ops="cd ~/expensify/Ops-Configs/"
+alias db="echo -ne "\033[0;36mconnecting to db2.rno\033[0;0m\n" && ssh db2.rno"
+alias fab="fab -g bastion1.sjc -u carlos"
+alias pab="fab -P -z 20 -u carlos"
+alias lw="ssh log1.uw1"
 
+if [[ $OSTYPE == 'darwin'* ]]
+then
 function push(){
     branch=`git rev-parse --abbrev-ref HEAD`
     if [ $branch == 'master' ]; then
         echo "DO NOT PUSH TO MASTER"
+    elif [ $branch == 'main' ]; then
+        echo "DO NOT PUSH TO MAIN"
     else
         git push origin $branch
     fi
@@ -47,6 +59,8 @@ function pushf(){
     branch=`git rev-parse --abbrev-ref HEAD`
     if [ $branch == 'master' ]; then
         echo "DO NOT PUSH TO MASTER"
+    elif [ $branch == 'main' ]; then
+        echo "DO NOT PUSH TO MAIN"
     else
         git push -f origin $branch
     fi
@@ -80,3 +94,5 @@ fab -H ${1:-webrock1.sjc} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\
 function count_csv (){
     tr ',' '\n' | grep -v '^$' | sort -rf | uniq -ci | sort -k 1,1nr
 }
+fi
+
