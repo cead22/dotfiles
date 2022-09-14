@@ -1,5 +1,5 @@
 alias s="git status --short"
-alias m='echo -ne "\033[0;36mAre you sure you dont want to swtich to MAIN?\033[0;0m\n" && git co master'
+alias m='echo -ne "\033[0;36mSwitching to MAIN?\033[0;0m\n" && git co main'
 alias v="vim -c 'normal ,d' ."
 alias jack='ack --js'
 alias pack='ack --php'
@@ -69,7 +69,7 @@ function pushf(){
 function pr(){
     remote=`git remote -v | grep origin | head -1 | awk '{print $2'} | sed 's/.*:\(.*\)*/\1/' | sed 's/\.git$//'`
     branch=`git rev-parse --abbrev-ref HEAD`
-    open "https://github.com/$remote/compare/${1:-master}...$branch?expand=1&assignee=cead22"
+    open "https://github.com/$remote/compare/${1:-main}...$branch?expand=1&assignee=cead22"
 }
 
 function vm (){
