@@ -94,5 +94,9 @@ fab -H ${1:-webrock1.sjc} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\
 function count_csv (){
     tr ',' '\n' | grep -v '^$' | sort -rf | uniq -ci | sort -k 1,1nr
 }
+
+function pretty_csv {
+    column -t -s, "$@" | less -F -S -X -K
+}
 fi
 
