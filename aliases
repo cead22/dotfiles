@@ -39,8 +39,10 @@ alias sc='cat ~/.ssh/config'
 alias ops="cd ~/expensify/Ops-Configs/"
 alias db='echo -ne "\033[0;36mconnecting to db2.rno\033[0;0m\n" && ssh db2.rno'
 alias fab="fab -g bastion1.sjc -u carlos"
-alias pab="fab -P -z 20 -u carlos"
+alias pab="fab -P -z 100 -u carlos"
 alias lw="ssh log1.uw1"
+alias df="diff -y -s --suppress-common-lines"
+alias dfw="diff -y -s --suppress-common-lines -w"
 
 if [[ $OSTYPE == 'darwin'* ]]
 then
@@ -83,12 +85,12 @@ function vm (){
 }
 function as (){
 ss
-fab -g bastion1.sjc -H ${1:-db2.rno} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 4445 | sed "s/0.0.0.0/auth.${1:-db2.rno}/" | cut -d' ' -f 3-4 && cd -
+fab -g bastion1.sjc -H ${1:-db2.rno} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 4445 | sed "s/0.0.0.0/auth.${1:-db2.rno}/" | cut -d' ' -f 3-4 | sed 's/auth\.//' | sed 's/:4445//' | tr -d '"' && cd - 2&>/dev/null
 }
 
 function bs (){
 ss
-fab -H ${1:-webrock1.sjc} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 8889 && cd -
+fab -H virt${1:-1.sjc} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 webrock${1:-1.sjc} 8888 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 8889 | sed "s/.*\..*\..*\./webrock.${1:-1.sjc}/" | cut -d' ' -f 3-4 | sed 's/webrock//' | sed 's/:8889//' | tr -d '"' && cd - 2&>/dev/null
 }
 
 function count_csv (){

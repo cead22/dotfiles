@@ -148,7 +148,12 @@ cdnvm() {
         fi
     fi
 }
-alias cd='cdnvm'
+# alias cd='cdnvm'
 cd "$PWD"
 
 # nvm use 14.19.3
+
+# For new dot android development
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
