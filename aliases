@@ -32,6 +32,7 @@ alias ss="cd ${basedir}/Ops-Configs/saltfab; source venv/bin/activate"
 alias static="cd ${basedir}/Web-Static"
 alias tf="${basedir}/script/tail.sh"
 alias cash="cd ${basedir}/App"
+alias sql="cd ~/misc/sql"
 
 alias uid='uuidgen | tr '\''[:upper:]'\'' '\''[:lower:]'\'' | pbcopy && echo '\''UUID copied to clipboard'\'''
 alias logs="ssh log1.uw1 -tt /expensify/bin/logwatcher | grep --line-buffered --color=always -v productiv.com | grep --line-buffered --color=always -v 'Database closed' | grep --line-buffered --color=always -v 'Slow query.*WITH sharedReportsWithTransactions'"
