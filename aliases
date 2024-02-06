@@ -1,6 +1,8 @@
 alias s="git status --short"
 alias m='echo -ne "\033[0;36mSwitching to MAIN?\033[0;0m\n" && git co main'
-alias v="vim -c 'normal ,d' ."
+# alias v="vim -c 'normal ,d' ."
+alias vim="nvim"
+alias v="nvim"
 alias jack='ack --js'
 alias pack='ack --php'
 alias hack='ack --html'
