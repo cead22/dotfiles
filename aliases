@@ -94,7 +94,18 @@ fab -g bastion1.sjc -H ${1:-db2.rno} -- "echo -ne \"status\\r\\nconnection:close
 
 function bs (){
 ss
-fab -H virt${1:-1.sjc} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 webrock${1:-1.sjc} 8888 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 8889 | sed "s/.*\..*\..*\./webrock.${1:-1.sjc}/" | cut -d' ' -f 3-4 | sed 's/webrock//' | sed 's/:8889//' | tr -d '"' && cd - 2&>/dev/null
+HOST=${1:-1.sjc}
+fab -H virt$HOST -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 webrock$HOST 8888 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 8889 | cut -d' ' -f3-4 | sed "s/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*:/webrock$HOST:/" |  sed 's/:8889//' | tr -d '"' && cd - 2&>/dev/null
+}
+
+function cc () {
+ss
+pab -H db* bedrock.compareCommitCounts | grep ' CommitCount ' | sed 's/ CommitCount//g'
+}
+
+function ccb () {
+ss
+pab -H virt* bedrock.compareCommitCounts | grep ' CommitCount ' | sed 's/ CommitCount//g'
 }
 
 function count_csv (){
