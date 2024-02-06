@@ -45,7 +45,8 @@ alias fab="fab -g bastion1.sjc -u carlos"
 alias pab="fab -P -z 100 -u carlos"
 alias lw="ssh log1.uw1"
 alias df="diff -y -s --suppress-common-lines"
-alias dfw="diff -y -s --suppress-common-lines -w"
+alias dfw="diff --color=auto -y -s --suppress-common-lines -w -W $(tput cols)"
+
 
 if [[ $OSTYPE == 'darwin'* ]]
 then
