@@ -23,7 +23,7 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-export EDITOR='vim'
+export EDITOR='nvim'
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export SALTFAB_DIR=~/Expensidev/Ops-Configs/saltfab
 export BASTION_USER=carlos
@@ -89,22 +89,21 @@ tmp=${PWD%/*/*};
 function color_my_prompt {
     history -a
     local host="\[\033[01;36m\]\h"
-    local dircolor="\[\033[01;33m\]"
+    local dircolor="\[\033[01;36m\]"
     local dir="\W"
     local twolastdirs="$(twolastdirs)"
     local branch_color=$(get_branch_color)
     local git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
     local last_color="\[\033[00m\]"
     local prompt_symbol="$"
-    export PS1="$dircolor$twolastdirs $branch_color$git_branch$prompt_symbol$last_color "
+    export PS1="$dircolor$twolastdirs $branch_color$git_branch$auth_status_circle$prompt_symbol$last_color "
 }
 PROMPT_COMMAND=color_my_prompt
 
 source ~/.git-completion.bash
-
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 cdnvm() {
     command cd "$@";
@@ -157,3 +156,15 @@ cd "$PWD"
 export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+
+CA_CERT_PATH="/Users/carlos/Expensidev/Ops-Configs/saltfab/cacert.pem"
+
+if [ -f "$CA_CERT_PATH" ]; then
+    export NODE_EXTRA_CA_CERTS="$CA_CERT_PATH"
+    export AWS_CA_BUNDLE="$CA_CERT_PATH"
+    export SSL_CERT_FILE="$CA_CERT_PATH"
+    export CURL_CA_BUNDLE="$CA_CERT_PATH"
+    export BUNDLE_SSL_CA_CERT="$CA_CERT_PATH"
+    export REQUESTS_CA_BUNDLE="$CA_CERT_PATH"
+fi

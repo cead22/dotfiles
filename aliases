@@ -32,21 +32,26 @@ alias ss="cd ${basedir}/Ops-Configs/saltfab; source venv/bin/activate"
 alias static="cd ${basedir}/Web-Static"
 alias tf="${basedir}/script/tail.sh"
 alias cash="cd ${basedir}/App"
-alias sql="cd ~/misc/sql"
+alias sq="cd ~/misc/sql"
 
 alias uid='uuidgen | tr '\''[:upper:]'\'' '\''[:lower:]'\'' | pbcopy && echo '\''UUID copied to clipboard'\'''
-alias logs="ssh log1.uw1 -tt /expensify/bin/logwatcher | grep --line-buffered --color=always -v productiv.com | grep --line-buffered --color=always -v 'Database closed' | grep --line-buffered --color=always -v 'Slow query.*WITH sharedReportsWithTransactions'"
+alias logs="ssh log1.uw1 -tt /expensify/bin/logwatcher"
+# alias logs="ssh log1.uw1 -tt /expensify/bin/logwatcher | grep --line-buffered --color=always -v productiv.com | grep --line-buffered --color=always -v 'Database closed' | grep --line-buffered --color=always -v 'Slow query.*WITH sharedReportsWithTransactions'"
 alias master='echo -ne "\033[0;36mconnecting to db1.sjc\033[0;0m\n" && ssh db1.sjc'
 alias bj='ssh -A bastion1.sjc'
 alias sc='cat ~/.ssh/config'
 alias ops="cd ~/expensify/Ops-Configs/"
 alias db='echo -ne "\033[0;36mconnecting to db2.rno\033[0;0m\n" && ssh db2.rno'
-alias fab="fab -g bastion1.sjc -u carlos"
+alias fab="fab -u carlos"
+alias gab="fab -g bastion1.sjc -u carlos"
 alias pab="fab -P -z 100 -u carlos"
 alias lw="ssh log1.uw1"
 alias df="diff -y -s --suppress-common-lines"
 alias dfw="diff --color=auto -y -s --suppress-common-lines -w -W $(tput cols)"
-
+alias pq="pbpaste | jq"
+alias slackadmin="open https://app.slack.com/manage/E047TPA624F/people https://expensify.slack.com/admin https://expfirstresponders.slack.com/admin https://expsmartscan.slack.com/admin"
+alias rs="rsync -avz --progress -e ssh"
+alias mike='python3 ~/mike/mike.py'
 
 if [[ $OSTYPE == 'darwin'* ]]
 then
@@ -114,6 +119,14 @@ function count_csv (){
 
 function pretty_csv {
     column -t -s, "$@" | less -F -S -X -K
+}
+
+function key() {
+if [ -z "$1" ]; then
+    echo "You need to specify a host"
+fi
+ss
+fab -H $1 authrock.sendKey
 }
 fi
 

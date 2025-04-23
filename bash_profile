@@ -1,6 +1,7 @@
 source ~/.bashrc
 
 export PATH="/usr/local/sbin:$PATH"
+
 # rbenv used for mobile development
 # export PATH="$HOME/.rbenv/bin:$PATH"
 # eval "$(rbenv init -)"
@@ -10,3 +11,6 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+# Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/opt/homebrew/bin/brew shellenv)"
