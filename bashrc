@@ -68,6 +68,14 @@ function parse_git_dirty {
         [[ $(git diff --shortstat) ]] && echo "*"
     fi
 }
+function parse_git_dirty {
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        git diff-index --quiet HEAD -- || echo "*"
+    else
+        echo ""
+    fi
+}
+
 function get_branch_color {
     if ! git ls-files >& /dev/null; then
         echo ""
