@@ -94,13 +94,13 @@ function vm (){
 }
 function as (){
 ss
-fab -g bastion1.sjc -H ${1:-db2.rno} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 4445 | sed "s/0.0.0.0/auth.${1:-db2.rno}/" | cut -d' ' -f 3-4 | sed 's/auth\.//' | sed 's/:4445//' | tr -d '"' && cd - 2&>/dev/null
+fab -H ${1:-db2.rno} -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 localhost 9999 | tail -1 | jq '(\"\(.host) \(.state) \(.priority) \(.version)\"), (.peerList[] | \"\(.host) \(.state) \(.priority) \(.version)\")'" | grep 4445 | sed "s/0.0.0.0/auth.${1:-db2.rno}/" | cut -d' ' -f 3-  | sort -rk3 | sed 's/auth\.//' | sed 's/:4445//' | tr -d '"' | sed 's/LEADING/LEADING /' | tr " " "\t" && cd - 2&>/dev/null
 }
 
 function bs (){
 ss
 HOST=${1:-1.sjc}
-fab -H virt$HOST -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 webrock$HOST 8888 | tail -1 | jq '(\"\(.host) \(.state)\"), (.peerList[] | \"\(.host) \(.state)\")'" | grep 8889 | cut -d' ' -f3-4 | sed "s/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*:/webrock$HOST:/" |  sed 's/:8889//' | tr -d '"' && cd - 2&>/dev/null
+fab -H virt$HOST -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 webrock$HOST 8888 | tail -1 | jq '(\"\(.host) \(.state) \(.priority) \(.version)\"), (.peerList[] | \"\(.host) \(.state) \(.priority) \(.version)\")'" | grep 8889 | cut -d' ' -f3- | sed "s/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*:/webrock$HOST:/" | sort -rk3 | sed 's/:8889//' | tr -d '"' | sed 's/LEADING/LEADING /' | tr " " "\t" && cd - 2&>/dev/null
 }
 
 function cc () {
