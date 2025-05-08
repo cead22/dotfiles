@@ -48,10 +48,12 @@
     ss = stash save
     pb = "!f() { git pull ${1:-origin} `git symbolic-ref HEAD`; }; f"
     foc = "!f() { git fetch origin $1; git co $1; }; f"
+    fc = "!f() { PR_NUMBER=\"$1\"; BRANCH_NAME=\"${2#*:}\"; git fetch origin pull/$PR_NUMBER/head:$BRANCH_NAME; git checkout $BRANCH_NAME; }; f"
     np = !git --no-pager
     da = !git branch --merged | grep -v "\\*" | xargs -n 1 git branch -d
     au = add -u
     mb = !git branch | grep carlos
+    branches = "for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
     # typos
     dif = diff
