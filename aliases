@@ -126,7 +126,7 @@ if [ -z "$1" ]; then
     echo "You need to specify a host"
 fi
 ss
-fab -H $1 authrock.sendKey
+fab -g bastion1.sjc -H $1 authrock.sendKey
 }
 fi
 
