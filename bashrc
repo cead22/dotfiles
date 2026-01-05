@@ -70,6 +70,7 @@ function parse_git_dirty {
 }
 function parse_git_dirty {
     if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        git update-index -q --refresh
         git diff-index --quiet HEAD -- || echo "*"
     else
         echo ""
