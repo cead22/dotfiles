@@ -42,9 +42,9 @@ alias bj='ssh -A bastion1.sjc'
 alias sc='cat ~/.ssh/config'
 alias ops="cd ~/expensify/Ops-Configs/"
 alias db='echo -ne "\033[0;36mconnecting to db2.rno\033[0;0m\n" && ssh db2.rno'
-alias fab="fab -u carlos"
-alias gab="fab -g bastion1.sjc -u carlos"
-alias pab="fab -P -z 100 -u carlos"
+alias fab="saltfab -u carlos"
+alias gab="saltfab -g bastion1.sjc -u carlos"
+alias pab="saltfab -P -z 100 -u carlos"
 alias lw="ssh log1.uw1"
 alias df="diff -y -s --suppress-common-lines"
 alias dfw="diff --color=auto -y -s --suppress-common-lines -w -W $(tput cols)"

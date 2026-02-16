@@ -14,3 +14,6 @@ OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# uv
+export PATH="/Users/carlos/.local/bin:$PATH"

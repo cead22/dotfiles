@@ -173,3 +173,6 @@ if [ -f "$CA_CERT_PATH" ]; then
     export BUNDLE_SSL_CA_CERT="$CA_CERT_PATH"
     export REQUESTS_CA_BUNDLE="$CA_CERT_PATH"
 fi
+
+# uv
+export PATH="/Users/carlos/.local/bin:$PATH"
