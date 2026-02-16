@@ -30,3 +30,13 @@ do
     printf "ln -s $dir/$file  ~/.$file\n"
     ln -s $dir/$file ~/.$file
 done
+
+# nvim config: symlink ~/dotfiles/nvim -> ~/.config/nvim
+printf '\e[1;34m%-6s\e[m' "Setting up nvim config"
+printf "\n"
+mkdir -p ~/.config
+if [ -e ~/.config/nvim ]; then
+    rm -rf ~/.config/nvim
+fi
+printf "ln -s $dir/nvim ~/.config/nvim\n"
+ln -s $dir/nvim ~/.config/nvim
