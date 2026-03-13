@@ -163,7 +163,7 @@ export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 
-CA_CERT_PATH="/Users/carlos/Expensidev/Ops-Configs/saltfab/cacert.pem"
+CA_CERT_PATH="/Users/carlos/Expensidev/Ops-Configs/src/saltfab/cacert.pem"
 
 if [ -f "$CA_CERT_PATH" ]; then
     export NODE_EXTRA_CA_CERTS="$CA_CERT_PATH"
