@@ -28,7 +28,7 @@ alias pdf="cd ${basedir}/Web-PDFs/var/pdfs.expensify.com"
 alias salt="cd ${basedir}/Salt"
 alias secure="cd ${basedir}/Web-Secure/"
 alias sql="${basedir}/script/sql.sh"
-alias ss="cd ${basedir}/Ops-Configs/saltfab; source venv/bin/activate"
+alias ss="cd ${basedir}/Ops-Configs/saltfab"
 alias static="cd ${basedir}/Web-Static"
 alias tf="${basedir}/script/tail.sh"
 alias cash="cd ${basedir}/App"
@@ -93,21 +93,18 @@ function vm (){
     fi
 }
 function as (){
-    ./auth_status.sh
+    ~/dotfiles/bin/bedrock_status.sh
 }
 
 function bs (){
-HOST=${1:-1.sjc}
-fab -H virt$HOST -- "echo -ne \"status\\r\\nconnection:close\\r\\n\\r\\n\" | nc -w 60 webrock$HOST 8888 | tail -1 | jq '(\"\(.host) \(.state) \(.priority) \(.version)\"), (.peerList[] | \"\(.host) \(.state) \(.priority) \(.version)\")'" | grep 8889 | cut -d' ' -f3- | sed "s/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*:/webrock$HOST:/" | sort -rk3 | sed 's/:8889//' | tr -d '"' | sed 's/LEADING/LEADING /' | tr " " "\t" && cd - 2&>/dev/null
+    ~/dotfiles/bin/bedrock_status.sh -b
 }
 
 function cc () {
-ss
 pab -H db* bedrock.compareCommitCounts | grep ' CommitCount ' | sed 's/ CommitCount//g'
 }
 
 function ccb () {
-ss
 pab -H virt* bedrock.compareCommitCounts | grep ' CommitCount ' | sed 's/ CommitCount//g'
 }
 
@@ -123,7 +120,6 @@ function key() {
 if [ -z "$1" ]; then
     echo "You need to specify a host"
 fi
-ss
 fab -g bastion1.sjc -H $1 authrock.sendKey
 }
 fi
