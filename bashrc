@@ -213,3 +213,6 @@ function same_color {
 
 #uncomment to enable automatically set random color when tab created
 color
+
+# opencode
+export PATH=/Users/carlos/.opencode/bin:$PATH
