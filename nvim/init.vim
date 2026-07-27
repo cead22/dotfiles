@@ -87,6 +87,15 @@ inoremap <s-tab> <c-n>
 " highlight current line
 set cursorline
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" STATUS LINE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" The %= splits the bar into left and right. On the right we show the current
+" directory name, then line and column, then how far through the file we are.
+" fnamemodify(getcwd(), ':t') keeps only the last path segment, so
+" /Users/carlos/Expensidev/Auth shows as "Auth".
+set statusline=%<%f\ %w%h%m%r\ [%{&ff}/%Y]%=%{fnamemodify(getcwd(),':t')}\ L:\ %l,\ C:\ %c\ %p%%
+
 " Open file on github in current line and on current hash
 " Note: this depends on the git url alias
 " nmap <leader>g :!echo `git url`/blob/`git rev-parse --short HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>

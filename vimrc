@@ -129,8 +129,7 @@ set statusline=%<%f\                     " Filename
 set statusline+=%w%h%m%r                 " Options
 " set statusline+=%{fugitive#statusline()} " Git Hotness
 set statusline+=\ [%{&ff}/%Y]            " Filetype
-set statusline+=\ [%{getcwd()}]          " Current dir
-set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+set statusline+=%=%{fnamemodify(getcwd(),':t')}\ L:\ %l,\ C:\ %c\ %p%% " Right aligned: current dir name, line, col, percentage
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS
