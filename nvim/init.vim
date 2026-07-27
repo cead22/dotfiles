@@ -189,4 +189,6 @@ nmap <leader>b <cmd>Buffer<cr>
 " Call the function when Vim starts
 autocmd VimEnter * call SetLeaderM()
 
+autocmd FileType php setlocal iskeyword+=$
+
 nnoremap vv :e ~/.config/nvim/init.vim<cr>
