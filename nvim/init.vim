@@ -94,7 +94,16 @@ set cursorline
 " directory name, then line and column, then how far through the file we are.
 " fnamemodify(getcwd(), ':t') keeps only the last path segment, so
 " /Users/carlos/Expensidev/Auth shows as "Auth".
-set statusline=%<%f\ %w%h%m%r\ [%{&ff}/%Y]%=%{fnamemodify(getcwd(),':t')}\ L:\ %l,\ C:\ %c\ %p%%
+set statusline=%<%f\ %w%h%m%r\ [%{&ff}/%Y]%=%#StatusLineCwd#%{fnamemodify(getcwd(),':t')}%*\ L:\ %l,\ C:\ %c\ %p%%
+
+" Color the directory segment bright blue so it stands out. Re-apply on
+" ColorScheme because loading a colorscheme runs highlight clear, which would
+" otherwise wipe this group.
+augroup StatusLineCwdColor
+  autocmd!
+  autocmd ColorScheme * highlight StatusLineCwd cterm=bold ctermfg=39 gui=bold guifg=#00afff
+augroup END
+highlight StatusLineCwd cterm=bold ctermfg=39 gui=bold guifg=#00afff
 
 " Open file on github in current line and on current hash
 " Note: this depends on the git url alias

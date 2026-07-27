@@ -129,7 +129,16 @@ set statusline=%<%f\                     " Filename
 set statusline+=%w%h%m%r                 " Options
 " set statusline+=%{fugitive#statusline()} " Git Hotness
 set statusline+=\ [%{&ff}/%Y]            " Filetype
-set statusline+=%=%{fnamemodify(getcwd(),':t')}\ L:\ %l,\ C:\ %c\ %p%% " Right aligned: current dir name, line, col, percentage
+set statusline+=%=%#StatusLineCwd#%{fnamemodify(getcwd(),':t')}%*\ L:\ %l,\ C:\ %c\ %p%% " Right aligned: dir name (bright blue), line, col, percentage
+
+" Color the directory segment bright blue so it stands out. Re-apply on
+" ColorScheme because loading a colorscheme runs highlight clear, which would
+" otherwise wipe this group.
+augroup StatusLineCwdColor
+  autocmd!
+  autocmd ColorScheme * highlight StatusLineCwd cterm=bold ctermfg=39 gui=bold guifg=#00afff
+augroup END
+highlight StatusLineCwd cterm=bold ctermfg=39 gui=bold guifg=#00afff
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS
