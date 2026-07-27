@@ -160,3 +160,4 @@ fi
 
 # uv
 export PATH="/Users/carlos/.local/bin:$PATH"
+export GPG_TTY=$(tty)
