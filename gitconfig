@@ -112,3 +112,9 @@
 	directory = /vagrant/Web-Secure/vendor/soundasleep/html2text
 	directory = /vagrant/FuzzyBot
 	directory = /vagrant/FuzzyBo
+	directory = /vagrant/Cloudflare-Workers
+	directory = /vagrant/GitHub-Actions
+	directory = /vagrant/python-libs
+	directory = /vagrant/Chronos/vendor/coderstephen/slack-client
+	directory = /vagrant/Chronos/vendor/expensify/php-libs
+	directory = /vagrant/Email-Parsers/vendor/expensify/php-libs
