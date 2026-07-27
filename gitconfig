@@ -5,7 +5,7 @@
 [user]
 	name = Carlos Alvarez
     # email = cead22@gmail.com
-	email = carlos@expensify.com
+    email = carlos@expensify.com
     # signingkey = 274F78F8018CF180
     signingkey = 1B61080A54C0709C
 [commit]
