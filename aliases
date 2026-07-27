@@ -93,11 +93,11 @@ function vm (){
     fi
 }
 function as (){
-    ~/dotfiles/bin/bedrock_status.sh
+    ~/Expensidev/script/bedrock_status.sh "$@"
 }
 
 function bs (){
-    ~/dotfiles/bin/bedrock_status.sh -b
+    ~/Expensidev/script/bedrock_status.sh -b
 }
 
 function cc () {
