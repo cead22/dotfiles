@@ -61,51 +61,35 @@ if [ -f ~/.extra ]; then
     . ~/.extra
 fi
 
-function parse_git_dirty {
-    if ! git ls-files >& /dev/null; then
-        echo ""
-    else
-        [[ $(git diff --shortstat) ]] && echo "*"
-    fi
-}
-function parse_git_dirty {
-    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        git update-index -q --refresh
-        git diff-index --quiet HEAD -- || echo "*"
-    else
-        echo ""
-    fi
-}
-
-function get_branch_color {
-    if ! git ls-files >& /dev/null; then
-        echo ""
-    else
-        local dirty=$(parse_git_dirty)
-        if [[ $dirty == '*' ]]
-        then
-            echo "\[\033[31m\]"
-        else
-            echo "\[\033[32m\]"
-        fi
-    fi
-}
-
 function twolastdirs {
 tmp=${PWD%/*/*};
 [ ${#tmp} -gt 0 -a "$tmp" != "$PWD" ] && echo ${PWD:${#tmp}+1} || echo $PWD;
 }
+
+# Build the git part of the prompt as "(branch)", green when the tracked work
+# tree is clean and red when it has staged or unstaged changes. The repos live
+# on a Parallels FUSE share where every git stat call is slow, so this stays
+# cheap on purpose: the branch name is read straight from HEAD instead of
+# running "git branch", and the dirty check skips the untracked-file scan.
+# core.preloadIndex and core.untrackedCache in ~/.gitconfig keep git fast here.
 function color_my_prompt {
     history -a
-    local host="\[\033[01;36m\]\h"
     local dircolor="\[\033[01;36m\]"
-    local dir="\W"
-    local twolastdirs="$(twolastdirs)"
-    local branch_color=$(get_branch_color)
-    local git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
     local last_color="\[\033[00m\]"
-    local prompt_symbol="$"
-    export PS1="$dircolor$twolastdirs $branch_color$git_branch$prompt_symbol$last_color "
+    local twolastdirs="$(twolastdirs)"
+
+    local git_segment=""
+    local branch
+    branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) || branch=$(git rev-parse --short HEAD 2>/dev/null)
+    if [ -n "$branch" ]; then
+        local branch_color="\[\033[32m\]"
+        if [ -n "$(git status --porcelain --untracked-files=no 2>/dev/null)" ]; then
+            branch_color="\[\033[31m\]"
+        fi
+        git_segment="$branch_color($branch) "
+    fi
+
+    export PS1="$dircolor$twolastdirs $git_segment\$$last_color "
 }
 PROMPT_COMMAND=color_my_prompt
 
@@ -216,3 +200,5 @@ color
 
 # opencode
 export PATH=/Users/carlos/.opencode/bin:$PATH
+
+export GPG_TTY=$(tty)

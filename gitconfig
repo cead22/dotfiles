@@ -1,9 +1,11 @@
 [core]
     editor = nvim
+    untrackedCache = true
+    preloadIndex = true
 [user]
 	name = Carlos Alvarez
     # email = cead22@gmail.com
-	email = carlos@expensify.com
+    email = carlos@expensify.com
     # signingkey = 274F78F8018CF180
     signingkey = 1B61080A54C0709C
 [commit]
@@ -112,3 +114,9 @@
 	directory = /vagrant/Web-Secure/vendor/soundasleep/html2text
 	directory = /vagrant/FuzzyBot
 	directory = /vagrant/FuzzyBo
+	directory = /vagrant/Cloudflare-Workers
+	directory = /vagrant/GitHub-Actions
+	directory = /vagrant/python-libs
+	directory = /vagrant/Chronos/vendor/coderstephen/slack-client
+	directory = /vagrant/Chronos/vendor/expensify/php-libs
+	directory = /vagrant/Email-Parsers/vendor/expensify/php-libs
