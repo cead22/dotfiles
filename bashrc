@@ -176,3 +176,40 @@ fi
 
 # uv
 export PATH="/Users/carlos/.local/bin:$PATH"
+
+# iTerm2 tab color
+ITERM_COLOR_FILE=~/.iterm_tab_color
+
+function _set_tab_color {
+    local r=$1 g=$2 b=$3
+    echo "echo -e \"\\033]6;1;bg;red;brightness;${r}\\a\""
+    echo "echo -e \"\\033]6;1;bg;green;brightness;${g}\\a\""
+    echo "echo -e \"\\033]6;1;bg;blue;brightness;${b}\\a\""
+    echo -e "\033]6;1;bg;red;brightness;${r}\a"$'\r\033[A'
+    echo -e "\033]6;1;bg;green;brightness;${g}\a"$'\r\033[A'
+    echo -e "\033]6;1;bg;blue;brightness;${b}\a"$'\r\033[A'
+    echo "$r $g $b" > "$ITERM_COLOR_FILE"
+}
+
+function color {
+    local r g b
+    case $1 in
+        green)  r=57;  g=197; b=77  ;;
+        red)    r=270; g=60;  b=83  ;;
+        orange) r=227; g=143; b=10  ;;
+        *)      r=$((1 + RANDOM % 255)); g=$((1 + RANDOM % 255)); b=$((1 + RANDOM % 255)) ;;
+    esac
+    _set_tab_color $r $g $b
+}
+
+function same_color {
+    if [ -f "$ITERM_COLOR_FILE" ]; then
+        read -r r g b < "$ITERM_COLOR_FILE"
+        _set_tab_color $r $g $b
+    else
+        echo "No saved tab color. Run 'color [green|red|orange]' first."
+    fi
+}
+
+#uncomment to enable automatically set random color when tab created
+color
