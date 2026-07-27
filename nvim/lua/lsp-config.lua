@@ -41,39 +41,53 @@ local function goto_definition_same_repo()
     local bufnr = vim.api.nvim_get_current_buf()
     local cur_path = vim.api.nvim_buf_get_name(bufnr)
     local cur_git = git_root_for_file(cur_path)
-    local params = vim.lsp.util.make_position_params(0, 'utf-8')
+    local clients = vim.lsp.get_clients({ bufnr = bufnr, method = 'textDocument/definition' })
+    if #clients == 0 then
+        vim.notify('LSP: no client attached', vim.log.levels.WARN)
+        return
+    end
+    local encoding = clients[1].offset_encoding or 'utf-8'
+    local params = vim.lsp.util.make_position_params(0, encoding)
     vim.lsp.buf_request_all(bufnr, 'textDocument/definition', params, function(responses)
         local all = {}
-        for _, resp in pairs(responses or {}) do
+        for client_id, resp in pairs(responses or {}) do
             if resp.result then
+                local client = vim.lsp.get_client_by_id(client_id)
+                local enc = client and client.offset_encoding or encoding
                 for _, loc in ipairs(locations_to_list(resp.result)) do
-                    table.insert(all, loc)
+                    table.insert(all, { loc = loc, enc = enc })
                 end
             end
         end
-        if #all == 0 then return end
+        if #all == 0 then
+            vim.notify('LSP: no definition found', vim.log.levels.INFO)
+            return
+        end
         -- Prefer locations in the same git root as current file
         local in_repo, other = {}, {}
-        for _, loc in ipairs(all) do
-            local fpath = uri_to_path(loc.uri)
+        for _, item in ipairs(all) do
+            local fpath = uri_to_path(item.loc.uri)
             local loc_git = git_root_for_file(fpath)
             if cur_git and loc_git and loc_git == cur_git then
-                table.insert(in_repo, loc)
+                table.insert(in_repo, item)
             else
-                table.insert(other, loc)
+                table.insert(other, item)
             end
         end
-        local chosen = in_repo[1]
-        if not chosen and #other > 0 then chosen = other[1] end
-        -- Prefer same file if multiple in repo
-        if chosen and #in_repo > 1 then
-            local cur_norm = (cur_path:gsub('\\', '/'):gsub('^file://', ''))
-            for _, loc in ipairs(in_repo) do
-                if uri_to_path(loc.uri) == cur_norm then chosen = loc break end
+        -- Prefer .cpp over .h (definition over declaration)
+        local function pick_best(items)
+            for _, item in ipairs(items) do
+                if uri_to_path(item.loc.uri):match('%.cpp$') then return item end
             end
+            return items[1]
         end
+        local chosen = pick_best(in_repo)
+        if not chosen and #other > 0 then chosen = pick_best(other) end
         if chosen then
-            vim.lsp.util.show_document(chosen, 'utf-8', { reuse_win = true, focus = true })
+            local ok, err = pcall(vim.lsp.util.show_document, chosen.loc, chosen.enc, { reuse_win = true, focus = true })
+            if not ok then
+                vim.notify('LSP: failed to open definition: ' .. tostring(err), vim.log.levels.ERROR)
+            end
         end
     end)
 end
