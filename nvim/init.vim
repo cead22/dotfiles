@@ -97,7 +97,13 @@ function! InsertTabWrapper()
         return "\<c-p>"
     endif
 endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+" Accept the Copilot suggestion on Tab when one is showing. Copilot.vim
+" skips its own default Tab mapping whenever it detects Tab already mapped,
+" so g:copilot_no_tab_map plus this explicit mapping are both required to
+" wire Tab to it. When no suggestion is visible, fall back to the tab or
+" completion behavior above.
+let g:copilot_no_tab_map = v:true
+inoremap <silent><expr> <tab> copilot#Accept(InsertTabWrapper())
 inoremap <s-tab> <c-n>
 
 
