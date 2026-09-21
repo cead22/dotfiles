@@ -19,3 +19,7 @@ fi
 
 # uv
 export PATH="/Users/carlos/.local/bin:$PATH"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
