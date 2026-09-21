@@ -9,6 +9,8 @@ set expandtab
 
 set noswapfile
 
+set mouse=
+
 nnoremap Y y$
 nnoremap j gj
 nnoremap k gk
