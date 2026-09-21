@@ -136,7 +136,7 @@ nmap <leader>g :!echo `git url`/blob/`git rev-parse --short HEAD`/`git ls-files 
 " Auto reload vimrc on save
 augroup reload_vimrc " {
   autocmd!
-  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+  autocmd BufWritePost $MYVIMRC,~/.config/nvim/init.vim source $MYVIMRC
 augroup END " }
 
 
