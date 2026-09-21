@@ -12,8 +12,10 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-# Set PATH, MANPATH, etc., for Homebrew.
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Set PATH, MANPATH, etc., for Homebrew on macOS.
+if [ "$(uname -s)" = "Darwin" ] && [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # uv
 export PATH="/Users/carlos/.local/bin:$PATH"
