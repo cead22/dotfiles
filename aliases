@@ -93,11 +93,11 @@ function vm (){
     fi
 }
 function as (){
-    ~/Expensidev/script/bedrock_status.sh "$@"
+    pab -H db* bedrock.statusReport
 }
 
 function bs (){
-    ~/Expensidev/script/bedrock_status.sh -b
+    pab -H virt* bedrock.statusReport
 }
 
 function cc () {
@@ -123,4 +123,3 @@ fi
 fab -g bastion1.sjc -H $1 authrock.sendKey
 }
 fi
-
