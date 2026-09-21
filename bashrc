@@ -175,26 +175,6 @@ function _set_tab_color {
     echo "$r $g $b" > "$ITERM_COLOR_FILE"
 }
 
-function color {
-    local r g b
-    case $1 in
-        green)  r=57;  g=197; b=77  ;;
-        red)    r=270; g=60;  b=83  ;;
-        orange) r=227; g=143; b=10  ;;
-        *)      r=$((1 + RANDOM % 255)); g=$((1 + RANDOM % 255)); b=$((1 + RANDOM % 255)) ;;
-    esac
-    _set_tab_color $r $g $b
-}
-
-function same_color {
-    if [ -f "$ITERM_COLOR_FILE" ]; then
-        read -r r g b < "$ITERM_COLOR_FILE"
-        _set_tab_color $r $g $b
-    else
-        echo "No saved tab color. Run 'color [green|red|orange]' first."
-    fi
-}
-
 # opencode
 export PATH=/Users/carlos/.opencode/bin:$PATH
 
