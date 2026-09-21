@@ -2,6 +2,49 @@
     editor = nvim
     untrackedCache = true
     preloadIndex = true
+
+    # Set delta as your main pager with optimized iTerm flags
+    pager = delta
+
+[interactive]
+    # Kept clean for interactive operations like `git add -p`
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true    # Use n and N to jump between changed files
+    line-numbers = true
+    #side-by-side = true # Set to false if you prefer a unified top-to-bottom layout
+    #syntax-theme = Dracula # Change to your favorite theme (e.g., GitHub, Monokai)
+
+    # Remove the loud bounding boxes around file names and hunk headers
+    file-style = bold # omit
+    hunk-header-style = omit
+
+    # Minimal styling: highlight text foreground only, no background blocks
+    minus-style = red
+    minus-non-em-style = red
+    minus-em-style = red bold underline
+
+    plus-style = green
+    # plus-style = "white #002600"
+    plus-non-em-style = green
+    # plus-em-style = green bold underline
+    plus-emph-style = "white #004d00"
+
+    # Clean up line numbers to be compact and quiet
+    line-numbers = true
+    line-numbers-minus-style = red
+    line-numbers-plus-style = green
+    line-numbers-left-format = "{nm:^4} "
+    line-numbers-right-format = "{np:^4} "
+    line-numbers-break-char = " "
+
+    # Enable native syntax themes from 'bat' (e.g., GitHub, Monokai, OneHalfDark)
+    syntax-theme = OneHalfDark
+
+[merge]
+    conflictStyle = zdiff3
+
 [user]
 	name = Carlos Alvarez
     # email = cead22@gmail.com
