@@ -37,8 +37,23 @@ nnoremap H ^
 " Make magic search the default
 nnoremap / /\V
 
-" Git diff current file
-nmap <F1> :!git diff --color=auto -- %<cr>
+" Git diff current file in a scratch split at the bottom. The diff filetype
+" does the coloring, so no ANSI escapes are involved and the buffer scrolls
+" like any normal buffer.
+function! GitDiffSplit() abort
+    let l:output = systemlist('git diff -- ' . shellescape(expand('%:p')))
+    if empty(l:output)
+        echo 'No changes'
+        return
+    endif
+    botright 15new
+    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted filetype=diff
+    call setline(1, l:output)
+    setlocal nomodifiable
+    nnoremap <buffer> q :close<CR>
+endfunction
+
+nnoremap <F1> :call GitDiffSplit()<CR>
 
 " Toggle line numbers
 nnoremap <F2> :set nonumber!<CR>
